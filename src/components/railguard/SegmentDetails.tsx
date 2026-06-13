@@ -6,6 +6,7 @@ import { Sparkles, Loader2, MousePointerClick, ClipboardList, Megaphone } from "
 import type { Segment } from "@/lib/railguard/data";
 import { riskColor, riskLevel } from "@/lib/railguard/data";
 import { generateRiskAnalysis } from "@/lib/railguard/analysis.functions";
+import { sendStationMasterAlert } from "@/lib/railguard/alert.functions";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -49,8 +50,10 @@ function SensorCard({
 
 export function SegmentDetails({ segment }: Props) {
   const runAnalysis = useServerFn(generateRiskAnalysis);
+  const sendAlert = useServerFn(sendStationMasterAlert);
   const [analysis, setAnalysis] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [alerting, setAlerting] = useState(false);
 
   if (!segment) {
     return (
@@ -233,11 +236,33 @@ export function SegmentDetails({ segment }: Props) {
             Flag for Inspection
           </button>
           <button
-            onClick={() => toast.success("Alert sent successfully")}
-            className="flex items-center justify-center gap-1.5 bg-[#112244] hover:bg-[#15294f] border border-[#1f3358] text-foreground text-[11px] font-medium py-2.5 rounded transition"
+            onClick={async () => {
+              if (!segment) return;
+              setAlerting(true);
+              try {
+                await sendAlert({
+                  data: {
+                    route: `${segment.from} → ${segment.to}`,
+                    riskScore: segment.riskScore,
+                    railTemp: segment.sensors.railTemp,
+                    moisture: segment.sensors.moisture,
+                    signalIntegrity: segment.sensors.signalIntegrity,
+                    lastMaintenanceDays: segment.sensors.lastMaintenanceDays,
+                    analysis,
+                  },
+                });
+                toast.success("✅ Alert sent to Station Master");
+              } catch (e: any) {
+                toast.error(`Failed to send alert: ${e?.message ?? "unknown error"}`);
+              } finally {
+                setAlerting(false);
+              }
+            }}
+            disabled={alerting}
+            className="flex items-center justify-center gap-1.5 bg-[#112244] hover:bg-[#15294f] border border-[#1f3358] text-foreground text-[11px] font-medium py-2.5 rounded transition disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            <Megaphone className="h-3.5 w-3.5" />
-            Alert Station Master
+            {alerting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Megaphone className="h-3.5 w-3.5" />}
+            {alerting ? "Sending…" : "Alert Station Master"}
           </button>
         </div>
       </div>
