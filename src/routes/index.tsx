@@ -5,6 +5,7 @@ import { StatsBar } from "@/components/railguard/StatsBar";
 import { AlertFeed } from "@/components/railguard/AlertFeed";
 import { SegmentDetails } from "@/components/railguard/SegmentDetails";
 import { RoutesPanel } from "@/components/railguard/RoutesPanel";
+import { SplashScreen } from "@/components/railguard/SplashScreen";
 import { Layers } from "lucide-react";
 import {
   INITIAL_SEGMENTS,
