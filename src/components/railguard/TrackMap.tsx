@@ -11,7 +11,7 @@ interface Props {
   showAll: boolean;
 }
 
-export function TrackMap({ segments, selectedId, onSelect, incidentId }: Props) {
+export function TrackMap({ segments, selectedId, onSelect, incidentId, showAll }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const layersRef = useRef<Map<string, L.Polyline>>(new Map());
