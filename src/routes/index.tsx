@@ -4,6 +4,8 @@ import { Navbar } from "@/components/railguard/Navbar";
 import { StatsBar } from "@/components/railguard/StatsBar";
 import { AlertFeed } from "@/components/railguard/AlertFeed";
 import { SegmentDetails } from "@/components/railguard/SegmentDetails";
+import { RoutesPanel } from "@/components/railguard/RoutesPanel";
+import { Layers } from "lucide-react";
 import {
   INITIAL_SEGMENTS,
   INITIAL_ALERTS,
