@@ -213,6 +213,36 @@ function Dashboard() {
             </div>
           )}
 
+          {/* Top-right map controls */}
+          <div className="absolute top-3 right-3 z-[400] flex gap-2">
+            <button
+              onClick={() => setRoutesPanelOpen((v) => !v)}
+              className="flex items-center gap-1.5 bg-[#0d1d35]/95 backdrop-blur border border-[#1f3358] hover:border-[#00C2A8]/60 text-foreground text-[11px] font-medium px-3 py-1.5 rounded shadow-lg transition"
+            >
+              <Layers className="h-3.5 w-3.5 text-[#00C2A8]" />
+              Routes
+            </button>
+            {!showAll && (
+              <button
+                onClick={() => { setShowAll(true); setSelectedId(null); }}
+                className="bg-[#00C2A8] hover:bg-[#00d4b8] text-[#0A1628] text-[11px] font-semibold px-3 py-1.5 rounded shadow-lg transition"
+              >
+                Show All Routes
+              </button>
+            )}
+          </div>
+
+          <RoutesPanel
+            open={routesPanelOpen}
+            onClose={() => setRoutesPanelOpen(false)}
+            segments={segments}
+            selectedId={selectedId}
+            showAll={showAll}
+            onSelect={(id) => { setSelectedId(id); setShowAll(false); }}
+            onShowAll={() => { setShowAll(true); setSelectedId(null); }}
+          />
+
+
           {/* Legend */}
           <div className="absolute bottom-3 left-3 z-10 bg-[#0d1d35]/90 backdrop-blur border border-[#1f3358] rounded-md px-3 py-2 text-[11px] space-y-1 shadow-lg">
             <div className="text-[9px] uppercase tracking-widest text-muted-foreground mb-1">
