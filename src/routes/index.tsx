@@ -126,7 +126,10 @@ function Dashboard() {
     [segments, selectedId],
   );
 
-  const handleSelect = useCallback((id: string) => setSelectedId(id), []);
+  const handleSelect = useCallback((id: string) => {
+    setSelectedId(id);
+    setShowAll(false);
+  }, []);
 
   const handleSimulate = useCallback(() => {
     const targetId = "del-agr";
