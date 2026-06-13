@@ -168,6 +168,7 @@ function Dashboard() {
     };
     setAlerts((prev) => [incidentAlert, ...prev].slice(0, 20));
     setSelectedId(targetId);
+    setShowAll(false);
 
     // Flash + sound + modal
     setFlash(true);
