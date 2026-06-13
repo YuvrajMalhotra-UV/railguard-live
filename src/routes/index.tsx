@@ -4,6 +4,8 @@ import { Navbar } from "@/components/railguard/Navbar";
 import { StatsBar } from "@/components/railguard/StatsBar";
 import { AlertFeed } from "@/components/railguard/AlertFeed";
 import { SegmentDetails } from "@/components/railguard/SegmentDetails";
+import { RoutesPanel } from "@/components/railguard/RoutesPanel";
+import { Layers } from "lucide-react";
 import {
   INITIAL_SEGMENTS,
   INITIAL_ALERTS,
@@ -53,6 +55,8 @@ function Dashboard() {
   const [flash, setFlash] = useState(false);
   const [modal, setModal] = useState<null | { title: string; msg: string }>(null);
   const [mounted, setMounted] = useState(false);
+  const [showAll, setShowAll] = useState(true);
+  const [routesPanelOpen, setRoutesPanelOpen] = useState(false);
   const alertCounter = useRef(0);
 
   useEffect(() => setMounted(true), []);
@@ -122,7 +126,10 @@ function Dashboard() {
     [segments, selectedId],
   );
 
-  const handleSelect = useCallback((id: string) => setSelectedId(id), []);
+  const handleSelect = useCallback((id: string) => {
+    setSelectedId(id);
+    setShowAll(false);
+  }, []);
 
   const handleSimulate = useCallback(() => {
     const targetId = "del-agr";
@@ -161,6 +168,7 @@ function Dashboard() {
     };
     setAlerts((prev) => [incidentAlert, ...prev].slice(0, 20));
     setSelectedId(targetId);
+    setShowAll(false);
 
     // Flash + sound + modal
     setFlash(true);
@@ -196,6 +204,7 @@ function Dashboard() {
                 selectedId={selectedId}
                 onSelect={handleSelect}
                 incidentId={incidentId}
+                showAll={showAll}
               />
             </Suspense>
           ) : (
@@ -203,6 +212,36 @@ function Dashboard() {
               Initializing map…
             </div>
           )}
+
+          {/* Top-right map controls */}
+          <div className="absolute top-3 right-3 z-[400] flex gap-2">
+            <button
+              onClick={() => setRoutesPanelOpen((v) => !v)}
+              className="flex items-center gap-1.5 bg-[#0d1d35]/95 backdrop-blur border border-[#1f3358] hover:border-[#00C2A8]/60 text-foreground text-[11px] font-medium px-3 py-1.5 rounded shadow-lg transition"
+            >
+              <Layers className="h-3.5 w-3.5 text-[#00C2A8]" />
+              Routes
+            </button>
+            {!showAll && (
+              <button
+                onClick={() => { setShowAll(true); setSelectedId(null); }}
+                className="bg-[#00C2A8] hover:bg-[#00d4b8] text-[#0A1628] text-[11px] font-semibold px-3 py-1.5 rounded shadow-lg transition"
+              >
+                Show All Routes
+              </button>
+            )}
+          </div>
+
+          <RoutesPanel
+            open={routesPanelOpen}
+            onClose={() => setRoutesPanelOpen(false)}
+            segments={segments}
+            selectedId={selectedId}
+            showAll={showAll}
+            onSelect={(id) => { setSelectedId(id); setShowAll(false); }}
+            onShowAll={() => { setShowAll(true); setSelectedId(null); }}
+          />
+
 
           {/* Legend */}
           <div className="absolute bottom-3 left-3 z-10 bg-[#0d1d35]/90 backdrop-blur border border-[#1f3358] rounded-md px-3 py-2 text-[11px] space-y-1 shadow-lg">

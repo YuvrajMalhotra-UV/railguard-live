@@ -8,9 +8,10 @@ interface Props {
   selectedId: string | null;
   onSelect: (id: string) => void;
   incidentId: string | null;
+  showAll: boolean;
 }
 
-export function TrackMap({ segments, selectedId, onSelect, incidentId }: Props) {
+export function TrackMap({ segments, selectedId, onSelect, incidentId, showAll }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const layersRef = useRef<Map<string, L.Polyline>>(new Map());
@@ -51,8 +52,17 @@ export function TrackMap({ segments, selectedId, onSelect, incidentId }: Props) 
       const color = riskColor(seg.riskScore);
       const isSelected = seg.id === selectedId;
       const isIncident = seg.id === incidentId;
+      const visible = showAll || isSelected;
 
       let glow = glowRef.current.get(seg.id);
+      let line = layersRef.current.get(seg.id);
+
+      if (!visible) {
+        if (line) { map.removeLayer(line); layersRef.current.delete(seg.id); }
+        if (glow) { map.removeLayer(glow); glowRef.current.delete(seg.id); }
+        continue;
+      }
+
       if (!glow) {
         glow = L.polyline(seg.coords, {
           color: "#ffffff",
@@ -64,11 +74,10 @@ export function TrackMap({ segments, selectedId, onSelect, incidentId }: Props) 
       }
       glow.setStyle({ opacity: isSelected ? 0.35 : 0 });
 
-      let line = layersRef.current.get(seg.id);
       if (!line) {
         line = L.polyline(seg.coords, {
           color,
-          weight: 5,
+          weight: isSelected || isIncident ? 7 : 5,
           opacity: 0.95,
           lineCap: "round",
         }).addTo(map);
@@ -85,7 +94,19 @@ export function TrackMap({ segments, selectedId, onSelect, incidentId }: Props) 
         });
       }
     }
-  }, [segments, selectedId, incidentId, onSelect]);
+
+    // Fit bounds to the selected segment when isolated
+    if (!showAll && selectedId) {
+      const seg = segments.find((s) => s.id === selectedId);
+      if (seg) {
+        map.flyToBounds(L.latLngBounds(seg.coords), {
+          padding: [60, 60],
+          duration: 0.6,
+          maxZoom: 9,
+        });
+      }
+    }
+  }, [segments, selectedId, incidentId, onSelect, showAll]);
 
   return <div ref={containerRef} className="absolute inset-0 z-0" />;
 }
