@@ -55,6 +55,8 @@ function Dashboard() {
   const [flash, setFlash] = useState(false);
   const [modal, setModal] = useState<null | { title: string; msg: string }>(null);
   const [mounted, setMounted] = useState(false);
+  const [showAll, setShowAll] = useState(true);
+  const [routesPanelOpen, setRoutesPanelOpen] = useState(false);
   const alertCounter = useRef(0);
 
   useEffect(() => setMounted(true), []);
