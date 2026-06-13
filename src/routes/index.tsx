@@ -204,6 +204,7 @@ function Dashboard() {
                 selectedId={selectedId}
                 onSelect={handleSelect}
                 incidentId={incidentId}
+                showAll={showAll}
               />
             </Suspense>
           ) : (
