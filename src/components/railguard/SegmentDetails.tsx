@@ -50,8 +50,10 @@ function SensorCard({
 
 export function SegmentDetails({ segment }: Props) {
   const runAnalysis = useServerFn(generateRiskAnalysis);
+  const sendAlert = useServerFn(sendStationMasterAlert);
   const [analysis, setAnalysis] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [alerting, setAlerting] = useState(false);
 
   if (!segment) {
     return (
