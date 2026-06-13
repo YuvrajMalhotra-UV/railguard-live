@@ -296,5 +296,6 @@ function Dashboard() {
         </div>
       )}
     </div>
+    </>
   );
 }
