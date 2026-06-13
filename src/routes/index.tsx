@@ -185,7 +185,9 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-[#0A1628] text-foreground overflow-hidden">
+    <>
+      {!splashDone && <SplashScreen onEnter={() => setSplashDone(true)} />}
+      <div className="h-screen w-screen flex flex-col bg-[#0A1628] text-foreground overflow-hidden">
       <Navbar onSimulate={handleSimulate} />
       <StatsBar stats={topStats} />
 
