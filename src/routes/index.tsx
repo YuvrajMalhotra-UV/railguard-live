@@ -180,13 +180,15 @@ function Dashboard() {
       <StatsBar stats={topStats} />
 
       <div className="flex-1 grid grid-cols-[20%_55%_25%] min-h-0">
-        <AlertFeed
-          alerts={alerts}
-          stats={stats}
-          onEscalate={(a) => toast.success(`Escalated: ${a.route}`)}
-        />
+        <div className="min-h-0 min-w-0 overflow-hidden">
+          <AlertFeed
+            alerts={alerts}
+            stats={stats}
+            onEscalate={(a) => toast.success(`Escalated: ${a.route}`)}
+          />
+        </div>
 
-        <div className="relative bg-[#0A1628]">
+        <div className="relative bg-[#0A1628] min-h-0 min-w-0">
           {mounted ? (
             <Suspense fallback={<div className="absolute inset-0 flex items-center justify-center text-xs text-muted-foreground">Loading map…</div>}>
               <TrackMap
@@ -213,7 +215,9 @@ function Dashboard() {
           </div>
         </div>
 
-        <SegmentDetails segment={selectedSegment} />
+        <div className="min-h-0 min-w-0 overflow-hidden">
+          <SegmentDetails segment={selectedSegment} />
+        </div>
       </div>
 
       {flash && (
