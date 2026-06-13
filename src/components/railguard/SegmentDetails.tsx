@@ -6,6 +6,7 @@ import { Sparkles, Loader2, MousePointerClick, ClipboardList, Megaphone } from "
 import type { Segment } from "@/lib/railguard/data";
 import { riskColor, riskLevel } from "@/lib/railguard/data";
 import { generateRiskAnalysis } from "@/lib/railguard/analysis.functions";
+import { sendStationMasterAlert } from "@/lib/railguard/alert.functions";
 import { cn } from "@/lib/utils";
 
 interface Props {
