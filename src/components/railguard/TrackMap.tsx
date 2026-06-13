@@ -8,6 +8,7 @@ interface Props {
   selectedId: string | null;
   onSelect: (id: string) => void;
   incidentId: string | null;
+  showAll: boolean;
 }
 
 export function TrackMap({ segments, selectedId, onSelect, incidentId }: Props) {
