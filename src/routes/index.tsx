@@ -215,7 +215,9 @@ function Dashboard() {
           </div>
         </div>
 
-        <SegmentDetails segment={selectedSegment} />
+        <div className="min-h-0 min-w-0 overflow-hidden">
+          <SegmentDetails segment={selectedSegment} />
+        </div>
       </div>
 
       {flash && (
