@@ -5,6 +5,7 @@ import { StatsBar } from "@/components/railguard/StatsBar";
 import { AlertFeed } from "@/components/railguard/AlertFeed";
 import { SegmentDetails } from "@/components/railguard/SegmentDetails";
 import { RoutesPanel } from "@/components/railguard/RoutesPanel";
+import { SplashScreen } from "@/components/railguard/SplashScreen";
 import { Layers } from "lucide-react";
 import {
   INITIAL_SEGMENTS,
@@ -58,6 +59,7 @@ function Dashboard() {
   const [showAll, setShowAll] = useState(true);
   const [routesPanelOpen, setRoutesPanelOpen] = useState(false);
   const alertCounter = useRef(0);
+  const [splashDone, setSplashDone] = useState(false);
 
   useEffect(() => setMounted(true), []);
 
@@ -183,7 +185,9 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-[#0A1628] text-foreground overflow-hidden">
+    <>
+      {!splashDone && <SplashScreen onEnter={() => setSplashDone(true)} />}
+      <div className="h-screen w-screen flex flex-col bg-[#0A1628] text-foreground overflow-hidden">
       <Navbar onSimulate={handleSimulate} />
       <StatsBar stats={topStats} />
 
@@ -292,5 +296,6 @@ function Dashboard() {
         </div>
       )}
     </div>
+    </>
   );
 }
