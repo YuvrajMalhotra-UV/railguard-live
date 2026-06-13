@@ -59,6 +59,7 @@ function Dashboard() {
   const [showAll, setShowAll] = useState(true);
   const [routesPanelOpen, setRoutesPanelOpen] = useState(false);
   const alertCounter = useRef(0);
+  const [splashDone, setSplashDone] = useState(false);
 
   useEffect(() => setMounted(true), []);
 
