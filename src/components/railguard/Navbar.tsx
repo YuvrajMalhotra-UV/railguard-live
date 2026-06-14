@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AlertTriangle } from "lucide-react";
-import logoAsset from "@/assets/railguard-logo.png.asset.json";
+const logoUrl = "/railguard-logo.png";
 
 interface Props {
   onSimulate: () => void;
