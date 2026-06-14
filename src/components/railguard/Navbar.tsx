@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Shield, AlertTriangle } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
+import logoAsset from "@/assets/railguard-logo.png.asset.json";
 
 interface Props {
   onSimulate: () => void;
