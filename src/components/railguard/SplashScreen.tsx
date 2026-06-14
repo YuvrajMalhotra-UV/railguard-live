@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import logoAsset from "@/assets/railguard-logo.png.asset.json";
+const logoUrl = "/railguard-logo.png";
 
 const RAIL = ["R", "A", "I", "L"];
 const GUARD = ["G", "U", "A", "R", "D"];
@@ -133,7 +133,7 @@ export function SplashScreen({ onEnter }: { onEnter: () => void }) {
             style={{ boxShadow: "0 0 60px 10px rgba(0,194,168,0.0)" }}
           />
           <img
-            src={logoAsset.url}
+            src={logoUrl}
             alt="RailGuard"
             className="splash-shield relative w-full h-full object-contain"
             style={{ filter: "drop-shadow(0 0 30px rgba(0,194,168,0.25))" }}

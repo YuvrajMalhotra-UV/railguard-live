@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AlertTriangle } from "lucide-react";
-import logoAsset from "@/assets/railguard-logo.png.asset.json";
+const logoUrl = "/railguard-logo.png";
 
 interface Props {
   onSimulate: () => void;
@@ -22,7 +22,7 @@ export function Navbar({ onSimulate }: Props) {
     <header className="h-14 px-5 flex items-center justify-between bg-[#0a1628] border-b border-[#1f3358] z-20 relative">
       <div className="flex items-center gap-3">
         <div className="h-9 w-9 rounded-md overflow-hidden flex items-center justify-center shadow-[0_0_20px_-4px_#00C2A8]">
-          <img src={logoAsset.url} alt="RailGuard" className="h-full w-full object-contain" />
+          <img src={logoUrl} alt="RailGuard" className="h-full w-full object-contain" />
         </div>
         <div>
           <div className="text-sm font-bold tracking-tight text-foreground leading-none">
